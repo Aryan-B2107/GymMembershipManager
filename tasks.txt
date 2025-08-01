@@ -1,0 +1,24 @@
+To do List: 
+
+1) Complete the user interface for different users(Member, Staff, Manager)
+And write app flows for each user:
+-> Member Functionalities:
+	•Scan qr code for attendance, connect qr url endpoint to database to add attendance
+	•create new attendance table in mysql database to gather member attendance
+	Optional:
+	•final stage(llm based pushing notifications from backend server)
+
+-> Staff Fucnionalities:
+	•New user entry, connect to sql database
+	•overlook attendance of members(connection to members database table)
+	•Staff attendance on qr code url to database
+
+-> Manager Functionalities:
+	•track all the staff attendance 
+	•overlook attendance of employees
+	(connection to employee database table)
+
+
+
+
+

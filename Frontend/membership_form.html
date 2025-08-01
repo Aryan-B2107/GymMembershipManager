@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership Application</title>
+    <style>
+        /* Your existing CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1f2937 0%, #374151 50%, #4b5563 100%);
+            min-height: 100vh;
+            padding: px;
+        }
+
+        .form-container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* --- NEW CSS FOR LOGO --- */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px; /* Space between logo and text, if you add text next to it */
+            margin-bottom: 15px; /* Space below the logo */
+            position: relative;
+            z-index: 2; /* Ensure logo is above the gradient overlay */
+        }
+
+        .logo {
+            width: 130px; /* Size of the logo */
+            height: 130px;
+            border-radius: 50%; /* Makes it circular */
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3); /* Soft shadow for depth */
+            transition: transform 0.3s ease; /* Smooth hover effect */
+            border: 3px solid rgba(255,255,255,0.2); /* Subtle white border */
+        }
+
+        .logo:hover {
+            transform: scale(1.05) rotate(5deg); /* Slight scale and rotation on hover */
+        }
+        /* --- END NEW CSS FOR LOGO --- */
+
+        .form-header h1 {
+            font-size: 2.2rem;
+            margin: 0;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .form-header p {
+            opacity: 0.95;
+            font-size: 1.1rem;
+            margin-top: 8px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fafbfc;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #dc2626;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-group input::placeholder {
+            color: #a0a0a0;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+            transform: scale(1.2);
+            accent-color: #dc2626;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .date-input {
+            position: relative;
+        }
+
+        .date-input input[type="date"] {
+            appearance: none;
+            -webkit-appearance: none;
+            position: relative;
+        }
+
+        .date-input input[type="date"]::-webkit-calendar-picker-indicator {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="%23dc2626"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>') no-repeat;
+            background-size: 20px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(220, 38, 38, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .form-content {
+                padding: 30px 25px;
+            }
+
+            .form-header {
+                padding: 25px;
+            }
+
+            .form-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+
+        .success-message {
+            display: none;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 20px;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <div class="logo-container">
+                <img src="logo.jpg" alt="Company Logo" class="logo">
+            </div>
+            <h1>Membership Application</h1>
+            <p>Join our community today</p>
+        </div>
+
+        <div class="form-content">
+            <form id="membershipForm">
+                <div class="form-group">
+                    <label for="email">Email <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="recordEmail" name="recordEmail">
+                        <label for="recordEmail">Record email as the email to be included with my response</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="full_name">Enter full name <span class="required">*</span></label>
+                    <input type="text" id="full_name" name="full_name" placeholder="Your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone_number">Enter phone number <span class="required">*</span></label>
+                    <input type="tel" id="phone_number" name="phone_number" placeholder="Your phone number" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="program_type">Enter Program Type <span class="required">*</span></label>
+                        <select id="program_type" name="program_type" required>
+                            <option value="">Choose</option>
+                            <option value="Muscle Gain">Muscle Gain</option>
+                            <option value="Fat Loss">Fat Loss</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Personalised Program">Personalised Program</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="locality">Where does member live in Nanded City <span class="required">*</span></label>
+                        <select id="locality" name="locality" required>
+                            <option value="">Choose</option>
+                            <option value="Sarang">Sarang</option>
+                            <option value="Madhuvanti">Madhuvanti</option>
+                            <option value="Shubhakalyan">Shubhakalyan</option>
+                            <option value="Asawari">Asawari</option>
+                            <option value="Lalit">Lalit</option>
+                            <option value="MangalBhairav">Mangal Bhairav</option>
+                            <option value="Sargam">Sargam</option>
+                            <option value="Pancham">Pancham</option>
+                            <option value="Sur">Sur</option>
+                            <option value="Rythem">Rythem</option>
+                            <option value="nearby">Nearby Area</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="membership_length_months">What is the length of the membership in months? <span class="required">*</span></label>
+                        <select id="membership_length_months" name="membership_length_months" required>
+                            <option value="">Choose</option>
+                            <option value="1">1 Month</option>
+                            <option value="3">3 Months</option>
+                            <option value="6">6 Months</option>
+                            <option value="12">12 Months</option>
+                            <option value="24">24 Months</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="start_date">What is the start date of the membership <span class="required">*</span></label>
+                        <div class="date-input">
+                            <input type="date" id="start_date" name="start_date" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="fees_paid">Amount of fees paid by Member? <span class="required">*</span></label>
+                    <input type="number" id="fees_paid" name="fees_paid" placeholder="Enter amount in ₹" min="0" step="0.01" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Application</button>
+            </form>
+
+            <div id="successMessage" class="success-message">
+                <h3>🎉 Application Submitted Successfully!</h3>
+                <p>Thank you for your membership application. We'll get back to you soon.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form submission handler
+        document.getElementById('membershipForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Get form data
+            const formData = new FormData(this);
+            const data = {};
+
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+
+            // Add checkbox value
+            data.recordEmail = document.getElementById('recordEmail').checked;
+
+            // Add submission timestamp
+            data.submittedAt = new Date().toISOString();
+
+            console.log('Sending data to Python backend:', data);
+            console.log('About to send POST request to: http://localhost:8000/api/membership');
+
+            try {
+                // Send data to Python backend
+                const response = await fetch('http://localhost:8000/api/membership', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                console.log('Response received:', response);
+
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('Success:', result);
+
+                    // Hide form and show success message
+                    this.style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+
+                    // Reset form after 3 seconds and show it again
+                    setTimeout(() => {
+                        this.reset();
+                        this.style.display = 'block';
+                        document.getElementById('successMessage').style.display = 'none';
+                    }, 3000);
+                } else {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('Error submitting form. Please check if the Python backend is running on localhost:8000');
+            }
+        });
+
+        // Add smooth animations for form interactions
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateY(-2px)';
+            });
+
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Set minimum date to today
+        document.getElementById('start_date').min = new Date().toISOString().split('T')[0];
+    </script>
+</body>
+</html>
