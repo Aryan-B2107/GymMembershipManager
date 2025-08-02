@@ -58,8 +58,6 @@ def create_membership():
             'received_data': data
         }), 200
 
-
-
     except Exception as e:
         print(f"❌ ERROR: {str(e)}")
         return jsonify({
@@ -86,6 +84,5 @@ if __name__ == '__main__':
     print("🎯 Waiting for form submissions...\n")
 
     app.run(host='0.0.0.0', port=8000, debug=True)
-    from database import insert_user
-    insert_user.insert_csv_data_to_mysql()cd 
+
 
